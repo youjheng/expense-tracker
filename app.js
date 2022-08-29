@@ -22,10 +22,12 @@ app.engine('hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }))
 app.set('view engine', 'hbs')
 
 app.get('/', (req, res) => {
-  res.render('index')
   Record.find()
     .lean()
-    .then(records => res.render('index', { records }))
+    .then(records => {
+      records.forEach(record => record.date = record.date.toISOString().split('T')[0])
+      res.render('index', { records })
+    })
     .catch(err => console.error(err))
 })
 
