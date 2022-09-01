@@ -1,0 +1,58 @@
+<div class="row mt-5">
+  <div class="col-6 mx-auto">
+
+    <div class="row mb-4 g-2 align-items-center">
+      <div class="col-3">
+        <small><p class="text-center">*必填欄位</p></small>
+      </div>
+      <div class="col-9">
+        <h5 class="text-center">請輸入你的支出</h5>
+      </div>
+    </div>
+
+    <form action="/records" method="POST">
+
+      <div class="row mb-3 g-2 align-items-center">
+        <label for="name" class="col-3 col-form-label text-center">名稱*：</label>
+        <div class="col-9">
+          <input type="text" name="name" class="form-control" placeholder="午餐" required>
+        </div>
+      </div>
+    
+      <div class="row mb-3 g-2 align-items-center">
+        <label for="date" class="col-3 col-form-label text-center">日期*：</label>
+        <div class="col-9">
+          <input type="date" name="date" class="form-control" placeholder="2022-08-31" required>
+        </div>
+      </div>
+    
+      <div class="row mb-3 g-2 align-items-center">
+        <label for="category" class="col-3 col-form-label text-center">類別*：</label>
+        <div class="col-9">
+          <input type="text" name="category" class="form-control" list="categories" placeholder="居家物業" required>
+          <datalist id="categories">
+            <option>居家物業</option>
+            <option>交通出行</option>
+            <option>休閒娛樂</option>
+            <option>餐飲食品</option>
+            <option>其他</option>
+          </datalist>
+        </div>
+      </div>
+    
+      <div class="row mb-3 g-2 align-items-center">
+        <label for="amount" class="col-3 col-form-label text-center">金額*：</label>
+        <div class="col-9">
+          <input type="number" name="amount" class="form-control" placeholder="500" required>
+        </div>
+      </div>
+    
+      <div class="row mt-4 g-2 align-items-center">
+        <div class="col-3"></div>
+        <button class="btn btn-danger col-9 mx-auto" type="submit">新增支出</button>
+    </div>
+
+    </form>
+
+  </div>
+</div>
