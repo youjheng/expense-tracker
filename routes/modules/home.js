@@ -12,6 +12,7 @@ router.get('/', (req, res) => {
       Record.find({ userId })
         .populate('category', 'icon')
         .lean()
+        .sort({ date: 'asc' })
         .then(records => {
           let totalAmount = 0
           records.map(record => {
@@ -32,6 +33,7 @@ router.get('/filter', (req, res) => {
   Record.find({ userId })
     .populate('category')
     .lean()
+    .sort({ date: 'asc' })
     .then(Record => {
       Record.map(record => {
         record.category = record.category.name
