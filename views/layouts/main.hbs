@@ -13,7 +13,14 @@
   <header>
     <nav class="navbar navbar-light bg-light">
       <div class="container-fluid">
-        <a class="navbar-brand" href="/">家庭記帳本</a>
+        <a class="navbar-brand" href="/">
+        {{#if isAuthenticated}}{{ user.name }}的{{/if}}家庭記帳本
+        </a>
+        {{#if isAuthenticated}}
+        <a href="/users/logout"><button class="btn btn-outline-danger">登出</button></a>
+        {{else}}
+        <a href="/users/login"><button class="btn btn-outline-danger">登入</button></a>
+        {{/if}}
       </div>
     </nav>
   </header>
