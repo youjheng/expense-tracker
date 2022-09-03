@@ -13,12 +13,45 @@ router.get('/', (req, res) => {
         .populate('category', 'icon')
         .lean()
         .then(records => {
-          records.forEach(record => record.date = record.date.toISOString().split('T')[0])
-          records.forEach(record => record.category = record.category.icon)
-          res.render('index', { records })
+          let totalAmount = 0
+          records.map(record => {
+            record.date = record.date.toISOString().split('T')[0]
+            record.category = record.category.icon
+            totalAmount += record.amount
+          })
+          res.render('index', { records, totalAmount })
         })
         .catch(err => console.error(err))
     })
+})
+
+router.get('/filter', (req, res) => {
+  const userId = req.user._id
+  const categorySelect = req.query.category || ''
+
+  Record.find({ userId })
+    .populate('category')
+    .lean()
+    .then(Record => {
+      Record.map(record => {
+        record.category = record.category.name
+        record.date = record.date.toISOString().split('T')[0]
+        return Record
+      })
+      const records = Record.filter(record => record.category.includes(categorySelect))
+      Category.findOne({ name: categorySelect })
+        .lean()
+        .then(categories => {
+          let totalAmount = 0
+          records.map(record => {
+            record.category = categories.icon
+            totalAmount += record.amount
+          })
+          res.render('index', { records, totalAmount })
+        })
+        .catch(err => console.log(err))
+    })
+    .catch(err => console.log(err))
 })
 
 module.exports = router
