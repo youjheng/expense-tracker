@@ -2,6 +2,7 @@ const express = require('express')
 const mongoose = require('mongoose')
 const exphbs = require('express-handlebars')
 const bodyParser = require('body-parser')
+const methodOverride = require('method-override')
 
 const Record = require('./models/record')
 const Category = require('./models/category')
@@ -20,10 +21,11 @@ db.once('open', () => {
   console.log('mongodb connected!')
 })
 
-app.engine('hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }))
+app.engine('hbs', exphbs({  defaultLayout: 'main', extname: '.hbs' }))
 app.set('view engine', 'hbs')
 
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use(methodOverride('_method'))
 
 app.get('/', (req, res) => {
   Record.find()
@@ -49,6 +51,37 @@ app.post('/records', (req, res) => {
         .catch(err => console.log(err))
     })
     .catch(err => console.log(err))
+})
+
+app.get('/records/:id/edit', (req, res) => {
+  const _id = req.params.id
+  return Record.findOne({ _id })
+    .lean()
+    .then((record) => {
+      record.date = record.date.toISOString().split('T')[0]
+      Category.findOne({ _id: record.category})
+        .lean()
+        .then(categories => res.render('edit', { record, category: categories.name }))
+        .catch(err => console.log(err))
+    })
+    .catch(err => console.log(err))
+})
+
+app.put('/records/:id', (req, res) => {
+  const _id = req.params.id
+  const record = req.body
+  Category.findOne({ name: record.category})
+    .then(category => {
+      record.category = category._id
+      return Record.findOneAndUpdate({ _id }, {
+        name: record.name,
+        date: record.date,
+        amount: record.amount,
+        category: record.category
+      })
+        .then(() => res.redirect('/'))
+        .catch(err => console.log(err))
+    })
 })
 
 app.listen(port, () => {
