@@ -84,6 +84,14 @@ app.put('/records/:id', (req, res) => {
     })
 })
 
+app.delete('/records/:id', (req, res) => {
+  const _id = req.params.id
+  return Record.findOne({ _id })
+    .then(record => record.remove())
+    .then(() => res.redirect('/'))
+    .catch(err => console.log(err))
+})
+
 app.listen(port, () => {
   console.log(`App is running on http://localhost:${port}`)
 })
