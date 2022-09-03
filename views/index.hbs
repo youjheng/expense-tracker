@@ -23,7 +23,7 @@
       {{#each records}}
       <li class="list-group-item list-group-item-action">
         <div class="col-auto d-flex align-items-center">
-          <i class="{{ this.categoryId.icon }}"></i>
+          <i class="{{ this.category }} me-3 mb-2 fs-2 text-info"></i>
           <div class="me-auto">
             <h5 style="display: inline; vertical-align: middle;">
               {{ this.name }}
@@ -42,7 +42,7 @@
       {{/each}}
     </ul>
 
-    <a class="btn btn-danger d-grid col-4 mx-auto mt-3" href="/records/new">新增支出</a>
+    <a class="btn btn-danger d-grid col-4 mx-auto m-3" href="/records/new">新增支出</a>
 
   </div>
 </div>
